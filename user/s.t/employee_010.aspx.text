@@ -1,0 +1,42 @@
+using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace Employee_010
+{
+    public partial class Eployee_010 : System.Web.UI.Page
+    {
+        string name = string.Empty;
+        string connectionstring = string.Format("Host=localhost; database=test; UID=root; password=123abc!; SslMode = none");
+        SqlDataReader objRs;
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (IsPostBack)
+            {
+                return;
+            }
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            MySqlConnection cn = new MySqlConnection(connectionstring);
+            MySqlCommand cmd = new MySqlCommand("SELECT name FROM member WHERE id=@id", cn);
+            cmd.Parameters.Add(new MySqlParameter("@id", TextBox1.Text));
+            cmd.Connection.Open();
+            MySqlDataReader reader =cmd.ExecuteReader();
+            while(reader.Read())
+            {
+                name = (string)reader.GetValue(0);
+                Label1.Text = name;
+            }
+            
+
+        }
+    }
+}
