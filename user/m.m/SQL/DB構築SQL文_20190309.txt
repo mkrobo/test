@@ -1,6 +1,7 @@
 社員マスタ																									
 CREATE TABLE `member` (																									
-`id` 社員番号 int(11) NOT NULL,																									
+`id` 社員番号 int(11) NOT NULL,
+`type` 案件種別 varchar(10) DEFAULT NULL,																									
 `name` 氏名 varchar(45) DEFAULT NULL,																									
 `initial` イニシャル氏名 varchar(45) DEFAULT NULL,																									
 `adress` 住所 varchar(45) DEFAULT NULL,																									
@@ -45,7 +46,8 @@ PRIMARY KEY (`id`)
 案件マスタ																									
 CREATE TABLE `deal` (
 `id_2` 契約書番号 int(11) NOT NULL,																									
-`id` 管理担当 (社員番号) int(11) NOT NULL,																									
+`id` 管理担当 (社員番号) int(11) NOT NULL,
+`type` 案件種別 varchar(10) DEFAULT NULL,																									
 `numero` 取引先 varchar(45) DEFAULT NULL,																									
 `dealcol` 勤務先 varchar(45) DEFAULT NULL,																									
 `customer` 社員番号 varchar(45) DEFAULT NULL,																									
@@ -72,13 +74,14 @@ CREATE TABLE `estimate` (
 																									
 引き合い情報																									
 CREATE TABLE `item` (
-`id_3` 引き合い番号 int(11) NOT NULL,																								
+`id_3` 引き合い番号 int(8) NOT NULL,																								
 `id` 窓口担当(社員番号) int(11) NOT NULL,																									
 `number`  varchar(45) DEFAULT NULL,																									
 `customer` 取引先 varchar(45) DEFAULT NULL,																									
 `work` 勤務先 varchar(45) DEFAULT NULL,																																																
 `cost` 単金 varchar(45) DEFAULT NULL,																									
 `require` 条件 varchar(110),																									
-`term` 期日 varchar(45) DEFAULT NULL,																									
+`term_start` 開始 varchar(45) DEFAULT NULL,
+`term_end` 終了 varchar(45) DEFAULT NULL,																								
 PRIMARY KEY (`id`)																									
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8																									
