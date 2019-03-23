@@ -1,0 +1,13 @@
+CREATE TABLE `info` (
+  `inq_number` int(11) NOT NULL,
+  `charge` char(20) CHARACTER SET latin1 DEFAULT NULL,
+  `client` char(20) CHARACTER SET latin1 DEFAULT NULL,
+  `work_palce` char(20) CHARACTER SET latin1 DEFAULT NULL,
+  `rate` int(11) DEFAULT NULL,
+  `requirements_skill` char(50) CHARACTER SET latin1 DEFAULT NULL,
+  `period_day` int(8) DEFAULT NULL,
+  `end_period_day` int(8) DEFAULT NULL,
+  `item` int(11) DEFAULT NULL,
+  `inquiry_kind` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`inq_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
