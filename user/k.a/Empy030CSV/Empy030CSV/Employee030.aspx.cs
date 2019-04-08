@@ -18,13 +18,18 @@ namespace Empy030CSV
 {
     public partial class TestCSVOutput : System.Web.UI.Page
     {
-        //String Connectingstring = "userid = root; password = 3S1e8t104@4; database=workmandb1; Host = localhost";
-        string connectionstring = string.Format("Host = localhost; database = workmandb1; UID = root; password = 3S1e8t104@4; SslMode = none");
-       
-        /*****/
-        string Dbcode = "Host = localhost; database = workmandb1; UID = root; password = 3S1e8t104@4; SslMode = none";
+        /// <summary>
+        /// Dbcodeで接続先の情報を記述、仕様によって、Hostやdatabase、UID(UserID)等の情報は変更してください
+        /// Sqlcodeの部分はテーブル情報を指定し検索する部分なので、変更可能
+        /// 
+        /// 更新情報
+        /// 2019/04/08 保存名を指定できるようにtextboxを設置、動作確認済み
+        /// 2019/04/08 ２重に記述していたところを削除
+        /// </summary>
+        
+        string Dbcode = "Host = localhost; database = workmandb1; UID = root; password = $X4dy@7h; SslMode = none";
         string Sqlcode = "select * from member";
-        /********/
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             DataGridView1.Columns.Clear();
@@ -32,38 +37,37 @@ namespace Empy030CSV
             if (IsPostBack == true) return;
         }
 
-        
-        DataTable m_dt;
-        //DataSet ds;
-        public void Mysqlconnnect()
+        /// <summary>
+        /// CSV出力ボタンを押すことで、
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void CSVOutput_Click(object sender, EventArgs e)
         {
+            string NameValue = NameBox.Text;
+            
             try
             {
-                
-           
-            MySqlConnection Con = new MySqlConnection(connectionstring);
+                DataSet ds = MakeDataTables(Sqlcode, Dbcode);
 
-            Con.Open();
-            DataTable Dt = new DataTable();
-                
+                DataTable DT = ds.Tables[0];
+                DataGridView1.DataSource = DT;
+                DataGridView1.DataBind();
+                ConvertDAtaToCSV0(DT, @"E:\testCSV\" + NameValue + ".csv", true);
 
-            MySqlDataAdapter Da = new MySqlDataAdapter("select * from member", Con);
-
-            Da.Fill(Dt);
-
-            DataGridView1.DataSource = Dt;
-            DataGridView1.DataBind();
-            //ds.Tables.Add(Dt);
-            m_dt = Dt;
-            Con.Close();
-                Label2.Text = "表示に成功しました";
-            }
-            catch(MySqlException)
+                Csv_Message.Text = "変換処理に成功しました、確認してみてください";
+            }catch(FormatException)
             {
-                Label2.Text = "エラーが起きました";
+                Csv_Message.Text = "処理に失敗しました、保存名を指定して下さい";
             }
         }
-        /****************/
+        
+        /// <summary>
+        /// テーブル情報を保管しておく
+        /// </summary>
+        /// <param name="sq"></param>
+        /// <param name="cc"></param>
+        /// <returns></returns>
         static DataSet MakeDataTables(string sq, string cc)
         {
            
@@ -86,54 +90,59 @@ namespace Empy030CSV
 
             StreamWriter SW = new StreamWriter(csvPath, false, enc);
 
-           // dt.CaseSensitive = true;
-
-            int colCount = dt.Columns.Count;
-            int lastColIndex = colCount - 1;
-
-            if (writeHeader)
+            try
             {
-                for (int i = 0; i < colCount; i++)
-                {
-                    //ヘッダの取得
-                    string field = dt.Columns[i].Caption;
-                    //"で囲む
-                    field = EncloseDoubleQuotesIfNeed(field);
-                    //フィールドを書き込む
-                    SW.Write(field);
-                    //カンマを書き込む
-                    if (lastColIndex > i)
-                    {
-                        SW.Write(',');
-                    }
-                }
-                //改行する
-                SW.Write("\r\n");
-            }
+                int colCount = dt.Columns.Count;
+                int lastColIndex = colCount - 1;
 
-            //レコードを書き込む
-            foreach (DataRow row in dt.Rows)
+                if (writeHeader)
+                {
+                    for (int i = 0; i < colCount; i++)
+                    {
+                        //ヘッダの取得
+                        string field = dt.Columns[i].Caption;
+                        //"で囲む
+                        field = EncloseDoubleQuotesIfNeed(field);
+                        //フィールドを書き込む
+                        SW.Write(field);
+                        //カンマを書き込む
+                        if (lastColIndex > i)
+                        {
+                            SW.Write(',');
+                        }
+                    }
+                    //改行する
+                    SW.Write("\r\n");
+                }
+
+                //レコードを書き込む
+                foreach (DataRow row in dt.Rows)
+                {
+                    for (int i = 0; i < colCount; i++)
+                    {
+                        //フィールドの取得
+                        string field = row[i].ToString();
+                        //"で囲む
+                        field = EncloseDoubleQuotesIfNeed(field);
+                        //フィールドを書き込む
+                        SW.Write(field);
+                        //カンマを書き込む
+                        if (lastColIndex > i)
+                        {
+                            SW.Write(',');
+                        }
+                    }
+                    //改行する
+                    SW.Write("\r\n");
+                }
+
+                //閉じる
+                SW.Close();
+                Grid_Message.Text = "処理に成功しました";
+            }catch(FormatException)
             {
-                for (int i = 0; i < colCount; i++)
-                {
-                    //フィールドの取得
-                    string field = row[i].ToString();
-                    //"で囲む
-                    field = EncloseDoubleQuotesIfNeed(field);
-                    //フィールドを書き込む
-                    SW.Write(field);
-                    //カンマを書き込む
-                    if (lastColIndex > i)
-                    {
-                        SW.Write(',');
-                    }
-                }
-                //改行する
-                SW.Write("\r\n");
+                Grid_Message.Text = "処理に失敗しました、接続情報を見直してください。";
             }
-
-            //閉じる
-            SW.Close();
         }
 
         private string EncloseDoubleQuotesIfNeed(string field)
@@ -173,18 +182,7 @@ namespace Empy030CSV
                 field.EndsWith("\t");
         }
         
-        protected void CSVOutput_Click(object sender, EventArgs e)
-        {
-            DataSet ds = MakeDataTables(Sqlcode, Dbcode);
-
-            DataTable DT = ds.Tables[0];
-            DataGridView1.DataSource = DT;
-            DataGridView1.DataBind();
-            ConvertDAtaToCSV0(DT, @"E:\testCSV\test22.csv", true);
-        }
-
-
-
+       
         /*************CSVに変換する(後)***************/
 
 

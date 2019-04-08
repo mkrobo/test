@@ -22,13 +22,13 @@ namespace Empy030CSV {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// Label2 コントロール。
+        /// Grid_Message コントロール。
         /// </summary>
         /// <remarks>
         /// 自動生成されたフィールド。
         /// 変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
+        protected global::System.Web.UI.WebControls.Label Grid_Message;
         
         /// <summary>
         /// DataGridView1 コントロール。
@@ -40,6 +40,15 @@ namespace Empy030CSV {
         protected global::System.Web.UI.WebControls.GridView DataGridView1;
         
         /// <summary>
+        /// NameBox コントロール。
+        /// </summary>
+        /// <remarks>
+        /// 自動生成されたフィールド。
+        /// 変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox NameBox;
+        
+        /// <summary>
         /// CSVOutput コントロール。
         /// </summary>
         /// <remarks>
@@ -47,5 +56,14 @@ namespace Empy030CSV {
         /// 変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button CSVOutput;
+        
+        /// <summary>
+        /// Csv_Message コントロール。
+        /// </summary>
+        /// <remarks>
+        /// 自動生成されたフィールド。
+        /// 変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Csv_Message;
     }
 }

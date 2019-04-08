@@ -12,7 +12,7 @@
         <div>
             <h1>CSV出力テスト</h1>
             <br />
-            <asp:Label ID="Label2" runat="server"></asp:Label>
+            <asp:Label ID="Grid_Message" runat="server"></asp:Label>
             <br />
             <br />
             <asp:GridView ID="DataGridView1" runat="server" AllowCustomPaging="True" BorderStyle="None" BackColor="White" BorderColor="#DEDFDE" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Vertical" AllowPaging="True" Enabled="False">
@@ -27,7 +27,11 @@
                 <SortedDescendingCellStyle BackColor="#EAEAD3" />
                 <SortedDescendingHeaderStyle BackColor="#575357" />
             </asp:GridView>
-            <asp:Button ID="CSVOutput" runat="server" OnClick="CSVOutput_Click" Text="CSV保存" />
+            &nbsp;<asp:TextBox ID="NameBox" runat="server"></asp:TextBox>
+&nbsp;<asp:Button ID="CSVOutput" runat="server" OnClick="CSVOutput_Click" Text="CSV出力" />
+            <br />
+            <br />
+            <asp:Label ID="Csv_Message" runat="server"></asp:Label>
             <br />
         </div>
     </form>
